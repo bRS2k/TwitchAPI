@@ -15,20 +15,24 @@ var timeout = 2
 var numTries = 3
 
 // This is the template request format for all requests to be made
-var request = gorequest.New().Header.Add("Client-ID", readAPIConfig().clientID)
+var request = gorequest.New()
+var clientID = readAPIConfig().ClientID
 
 // APIConfig is the configuration information necessary to connect to the twitch API
 type apiConfig struct {
-	clientID string
+	ClientID string
 }
 
 // ReadAPIConfig reads the config information from api.cfg and returns a config struct
 // with the information
-func readAPIConfig() APIConfig {
-	file, _ := os.Open("api.cfg")
-	decoder := json.NewDecoder(file)
+func readAPIConfig() apiConfig {
+	configFile, _ := os.Open("../config/apiconf.json")
+	decoder := json.NewDecoder(configFile)
 	apiConfig := apiConfig{}
-	if err := decoder.Decode(&apiConfig); err != nil {
+	err := decoder.Decode(&apiConfig)
+	if err != nil {
 		fmt.Println("Error while decoding config file:\n", err)
 	}
+	fmt.Println(apiConfig)
+	return apiConfig
 }

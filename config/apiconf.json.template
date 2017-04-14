@@ -1,0 +1,3 @@
+{
+    "ClientID": "the client id token gotten from twitch to connect to their API"
+}
